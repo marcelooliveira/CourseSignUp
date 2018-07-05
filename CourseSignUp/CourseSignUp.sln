@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseSignUp", "CourseSignUp\CourseSignUp.csproj", "{BBF9505E-FCED-406E-BA2A-48D3AC7D751D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseSignUp.Core", "CourseSignUp.Core\CourseSignUp.Core.csproj", "{13BA99BA-603A-4782-9D1C-D35B3EE1DC97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BBF9505E-FCED-406E-BA2A-48D3AC7D751D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBF9505E-FCED-406E-BA2A-48D3AC7D751D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBF9505E-FCED-406E-BA2A-48D3AC7D751D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13BA99BA-603A-4782-9D1C-D35B3EE1DC97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13BA99BA-603A-4782-9D1C-D35B3EE1DC97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13BA99BA-603A-4782-9D1C-D35B3EE1DC97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13BA99BA-603A-4782-9D1C-D35B3EE1DC97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
