@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseSignUp", "CourseSignU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseSignUp.Core", "CourseSignUp.Core\CourseSignUp.Core.csproj", "{13BA99BA-603A-4782-9D1C-D35B3EE1DC97}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseSignUp.Core.Tests", "CourseSignUp.Core.Tests\CourseSignUp.Core.Tests.csproj", "{A677DAF1-FEF8-47B3-9B5A-CDCC13686285}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{13BA99BA-603A-4782-9D1C-D35B3EE1DC97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13BA99BA-603A-4782-9D1C-D35B3EE1DC97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13BA99BA-603A-4782-9D1C-D35B3EE1DC97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A677DAF1-FEF8-47B3-9B5A-CDCC13686285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A677DAF1-FEF8-47B3-9B5A-CDCC13686285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A677DAF1-FEF8-47B3-9B5A-CDCC13686285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A677DAF1-FEF8-47B3-9B5A-CDCC13686285}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

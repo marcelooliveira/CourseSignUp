@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace CourseSignUp
+namespace CourseSignUp.Core
 {
     public interface IApplicationContext
     {
