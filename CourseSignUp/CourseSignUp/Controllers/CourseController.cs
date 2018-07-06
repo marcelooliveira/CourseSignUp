@@ -6,17 +6,18 @@ using CourseSignUp.Domain.Model;
 using CourseSignUp.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using CourseSignUp.Domain.Repositories;
+using CourseSignUp.Domain.Services;
 
 namespace CourseSignUp.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        private readonly ICourseRepository courseRepository;
+        private readonly ICourseService courseService;
 
-        public ValuesController(ICourseRepository courseRepository)
+        public ValuesController(ICourseService courseService)
         {
-            this.courseRepository = courseRepository;
+            this.courseService = courseService;
         }
 
         // GET api/values
@@ -37,7 +38,7 @@ namespace CourseSignUp.Controllers
         [HttpPost]
         public void Post([FromBody]SignUpInput input)
         {
-            courseRepository.SignUpStudent(input);
+            courseService.SignUpStudent(input);
         }
 
         // PUT api/values/5
