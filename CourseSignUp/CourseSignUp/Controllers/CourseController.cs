@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CourseSignUp.Core.Model;
+using CourseSignUp.Core.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseSignUp.Controllers
@@ -10,6 +11,13 @@ namespace CourseSignUp.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        private readonly ICourseRepository courseRepository;
+
+        public ValuesController(ICourseRepository courseRepository)
+        {
+            this.courseRepository = courseRepository;
+        }
+
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
@@ -28,6 +36,7 @@ namespace CourseSignUp.Controllers
         [HttpPost]
         public void Post([FromBody]SignUpInput input)
         {
+            courseRepository.SignUpStudent(input);
         }
 
         // PUT api/values/5
