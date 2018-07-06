@@ -1,6 +1,6 @@
-﻿using CourseSignUp.Core.Model;
+﻿using CourseSignUp.Domain.Model;
 
-namespace CourseSignUp.Core.Repositories
+namespace CourseSignUp.Domain.Repositories
 {
     public interface ICourseRepository
     {

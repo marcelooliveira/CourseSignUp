@@ -1,10 +1,11 @@
-﻿using CourseSignUp.Core.Model;
+﻿using CourseSignUp.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using CourseSignUp.Domain.Repositories;
 
-namespace CourseSignUp.Core.Repositories
+namespace CourseSignUp.Data.Repositories
 {
     public class CourseRepository : BaseRepository<Course>, ICourseRepository
     {
@@ -24,7 +25,13 @@ namespace CourseSignUp.Core.Repositories
 
         public void SignUpStudent(SignUpInput input)
         {
-            Course course = dbSet.Where(c => c.Id == input.CourseId).SingleOrDefault();
+            if (input == null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
+            Microsoft.EntityFrameworkCore.DbSet<Course> set = context.Set<Course>();
+            Course course = set.Where(c => c.Id == input.CourseId).SingleOrDefault();
 
             if (course != null)
             {

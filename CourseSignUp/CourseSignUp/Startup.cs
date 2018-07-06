@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CourseSignUp.Core.Repositories;
+using CourseSignUp.Data;
+using CourseSignUp.Data.Repositories;
+using CourseSignUp.Domain.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +37,7 @@ namespace CourseSignUp
             services.AddTransient<IApplicationContext, ApplicationContext>();
             services.AddTransient<ICourseRepository, CourseRepository>();
             services.AddTransient<IStudentRepository, StudentRepository>();
+            services.AddTransient<IDataService, DataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

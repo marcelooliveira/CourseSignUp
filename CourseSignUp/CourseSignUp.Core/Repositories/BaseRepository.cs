@@ -1,10 +1,10 @@
-﻿using CourseSignUp.Core.Model;
+﻿using CourseSignUp.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CourseSignUp.Core.Repositories
+namespace CourseSignUp.Data.Repositories
 {
     public abstract class BaseRepository<T> where T : BaseModel
     {

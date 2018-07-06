@@ -1,9 +1,10 @@
-﻿using CourseSignUp.Core.Model;
+﻿using CourseSignUp.Domain.Model;
+using CourseSignUp.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CourseSignUp.Core.Repositories
+namespace CourseSignUp.Data.Repositories
 {
     public class StudentRepository : BaseRepository<Student>, IStudentRepository
     {

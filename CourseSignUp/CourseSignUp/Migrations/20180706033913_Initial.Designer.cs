@@ -21,7 +21,7 @@ namespace CourseSignUp.Migrations
                 .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CourseSignUp.Core.Model.Course", b =>
+            modelBuilder.Entity("CourseSignUp.Data.Model.Course", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -35,7 +35,7 @@ namespace CourseSignUp.Migrations
                     b.ToTable("Courses");
                 });
 
-            modelBuilder.Entity("CourseSignUp.Core.Model.Enrollment", b =>
+            modelBuilder.Entity("CourseSignUp.Data.Model.Enrollment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -53,7 +53,7 @@ namespace CourseSignUp.Migrations
                     b.ToTable("Enrollments");
                 });
 
-            modelBuilder.Entity("CourseSignUp.Core.Model.Student", b =>
+            modelBuilder.Entity("CourseSignUp.Data.Model.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -67,7 +67,7 @@ namespace CourseSignUp.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("CourseSignUp.Core.Model.Teacher", b =>
+            modelBuilder.Entity("CourseSignUp.Data.Model.Teacher", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -79,13 +79,13 @@ namespace CourseSignUp.Migrations
                     b.ToTable("Teachers");
                 });
 
-            modelBuilder.Entity("CourseSignUp.Core.Model.Enrollment", b =>
+            modelBuilder.Entity("CourseSignUp.Data.Model.Enrollment", b =>
                 {
-                    b.HasOne("CourseSignUp.Core.Model.Course", "Course")
+                    b.HasOne("CourseSignUp.Data.Model.Course", "Course")
                         .WithMany()
                         .HasForeignKey("CourseId");
 
-                    b.HasOne("CourseSignUp.Core.Model.Student", "Student")
+                    b.HasOne("CourseSignUp.Data.Model.Student", "Student")
                         .WithMany()
                         .HasForeignKey("StudentId");
                 });

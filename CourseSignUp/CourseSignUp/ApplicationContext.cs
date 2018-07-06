@@ -1,4 +1,5 @@
-﻿using CourseSignUp.Core.Model;
+﻿using CourseSignUp.Data;
+using CourseSignUp.Domain.Model;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using System;

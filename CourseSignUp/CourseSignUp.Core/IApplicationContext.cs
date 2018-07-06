@@ -1,8 +1,8 @@
-﻿using CourseSignUp.Core.Model;
+﻿using CourseSignUp.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace CourseSignUp.Core
+namespace CourseSignUp.Data
 {
     public interface IApplicationContext
     {

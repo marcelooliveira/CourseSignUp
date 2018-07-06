@@ -1,4 +1,4 @@
-﻿namespace CourseSignUp.Core.Model
+﻿namespace CourseSignUp.Domain.Model
 {
     public class BaseModel
     {

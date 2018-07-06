@@ -1,7 +1,7 @@
-﻿using CourseSignUp.Core.Model;
+﻿using CourseSignUp.Domain.Model;
 using System;
 
-namespace CourseSignUp.Core.Repositories
+namespace CourseSignUp.Domain.Repositories
 {
     public interface IStudentRepository
     {

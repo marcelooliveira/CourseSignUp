@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CourseSignUp.Core.Model;
-using CourseSignUp.Core.Repositories;
+using CourseSignUp.Domain.Model;
+using CourseSignUp.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using CourseSignUp.Domain.Repositories;
 
 namespace CourseSignUp.Controllers
 {

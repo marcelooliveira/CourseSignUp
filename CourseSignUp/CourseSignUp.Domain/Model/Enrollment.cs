@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CourseSignUp.Core.Model
+namespace CourseSignUp.Domain.Model
 {
     public class Enrollment : BaseModel
     {
