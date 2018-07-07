@@ -23,8 +23,8 @@ namespace CourseSignUp.Domain.Services
                 throw new ArgumentNullException(nameof(input));
             }
 
-            var course = courseRepository.GetCourse(input.CourseId);
-            var students = courseRepository.GetStudents(input.CourseId);
+            var course = courseRepository.GetCourse(input.CourseCode);
+            var students = courseRepository.GetStudents(input.CourseCode);
 
             if (students.Contains(new Student(input.Name, input.BirthDate)))
             {

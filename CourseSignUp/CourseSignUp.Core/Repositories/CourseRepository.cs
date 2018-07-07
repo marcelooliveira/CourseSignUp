@@ -23,20 +23,20 @@ namespace CourseSignUp.Data.Repositories
             this.studentRepository = studentRepository;
         }
 
-        public Course GetCourse(int courseId)
+        public Course GetCourse(string courseCode)
         {
-            Course course = dbSet.Where(c => c.Id == courseId).SingleOrDefault();
+            Course course = dbSet.Where(c => c.Code == courseCode).SingleOrDefault();
             if (course == null)
             {
-                throw new ArgumentException($"Course not found: {courseId}");
+                throw new ArgumentException($"Course not found: {courseCode}");
             }
             return course;
         }
 
-        public IList<Student> GetStudents(int courseId)
+        public IList<Student> GetStudents(string courseCode)
         {
             return context.Set<Enrollment>()
-                .Where(e => e.Course.Id == courseId)
+                .Where(e => e.Course.Code == courseCode)
                 .Select(e => e.Student)
                 .ToList();
         }
@@ -49,7 +49,7 @@ namespace CourseSignUp.Data.Repositories
             }
 
             Microsoft.EntityFrameworkCore.DbSet<Course> set = context.Set<Course>();
-            Course course = set.Where(c => c.Id == input.CourseId).SingleOrDefault();
+            Course course = set.Where(c => c.Code == input.CourseCode).SingleOrDefault();
 
             if (course != null)
             {

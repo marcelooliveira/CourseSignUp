@@ -4,8 +4,9 @@ namespace CourseSignUp.Domain.Model
 {
     public class Course : BaseModel
     {
-        public Course(string name, int maxStudentCount)
+        public Course(string code, string name, int maxStudentCount)
         {
+            Code = code;
             Name = name;
             MaxStudentCount = maxStudentCount;
         }

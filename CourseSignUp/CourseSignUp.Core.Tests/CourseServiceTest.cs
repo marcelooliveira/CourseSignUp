@@ -75,7 +75,7 @@ namespace CourseSignUp.Domain.Tests
         {
             ICourseService courseService = Services.GetService<ICourseService>();
 
-            Course course = new Course("History", 30) { Id = 1 };
+            Course course = new Course("HIS", "History", 30) { Id = 1 };
             IList<Student> students = new List<Student>
             {
                 new Student("Student 1", new DateTime(1990, 01, 01)),
@@ -83,19 +83,19 @@ namespace CourseSignUp.Domain.Tests
             };
 
             mockCourseRepository
-                .Setup(r => r.GetCourse(course.Id))
+                .Setup(r => r.GetCourse(course.Code))
                 .Returns(course);
 
             mockCourseRepository
-                .Setup(r => r.GetStudents(course.Id))
+                .Setup(r => r.GetStudents(course.Code))
                 .Returns(students);
 
-            SignUpInput signUpInput = new SignUpInput(course.Id, "José da Silva", new DateTime(1990, 1, 1));
+            SignUpInput signUpInput = new SignUpInput(course.Code, "José da Silva", new DateTime(1990, 1, 1));
 
             courseService.SignUpStudent(signUpInput);
 
-            mockCourseRepository.Verify(x => x.GetCourse(course.Id), Times.Once());
-            mockCourseRepository.Verify(x => x.GetStudents(course.Id), Times.Once());
+            mockCourseRepository.Verify(x => x.GetCourse(course.Code), Times.Once());
+            mockCourseRepository.Verify(x => x.GetStudents(course.Code), Times.Once());
             mockCourseRepository.Verify(x => x.SignUpStudent(signUpInput), Times.Once());
         }
 
@@ -106,21 +106,21 @@ namespace CourseSignUp.Domain.Tests
         {
             ICourseService courseService = Services.GetService<ICourseService>();
 
-            Course course = new Course("History", 30) { Id = 1 };
+            Course course = new Course("HIS", "History", 30) { Id = 1 };
             IList<Student> students = new List<Student>
             {
                 new Student("José da Silva", new DateTime(1990, 01, 01))
             };
 
             mockCourseRepository
-                .Setup(r => r.GetCourse(course.Id))
+                .Setup(r => r.GetCourse(course.Code))
                 .Returns(course);
 
             mockCourseRepository
-                .Setup(r => r.GetStudents(course.Id))
+                .Setup(r => r.GetStudents(course.Code))
                 .Returns(students);
 
-            SignUpInput signUpInput = new SignUpInput(course.Id, "José da Silva", new DateTime(1990, 1, 1));
+            SignUpInput signUpInput = new SignUpInput(course.Code, "José da Silva", new DateTime(1990, 1, 1));
 
             courseService.SignUpStudent(signUpInput);
         }
@@ -131,7 +131,7 @@ namespace CourseSignUp.Domain.Tests
         {
             ICourseService courseService = Services.GetService<ICourseService>();
 
-            Course course = new Course("History", 5) { Id = 1 };
+            Course course = new Course("HIS", "History", 5) { Id = 1 };
             IList<Student> students = new List<Student>
             {
                 new Student("Student 1", new DateTime(1990, 01, 01)),
@@ -142,14 +142,14 @@ namespace CourseSignUp.Domain.Tests
             };
 
             mockCourseRepository
-                .Setup(r => r.GetCourse(course.Id))
+                .Setup(r => r.GetCourse(course.Code))
                 .Returns(course);
 
             mockCourseRepository
-                .Setup(r => r.GetStudents(course.Id))
+                .Setup(r => r.GetStudents(course.Code))
                 .Returns(students);
 
-            SignUpInput signUpInput = new SignUpInput(course.Id, "José da Silva", new DateTime(1990, 1, 1));
+            SignUpInput signUpInput = new SignUpInput(course.Code, "José da Silva", new DateTime(1990, 1, 1));
 
             courseService.SignUpStudent(signUpInput);
         }

@@ -5,8 +5,8 @@ namespace CourseSignUp.Domain.Repositories
 {
     public interface ICourseRepository
     {
-        Course GetCourse(int courseId);
-        IList<Student> GetStudents(int courseId);
+        Course GetCourse(string courseCode);
+        IList<Student> GetStudents(string courseCode);
         void SignUpStudent(SignUpInput input);
     }
 }
