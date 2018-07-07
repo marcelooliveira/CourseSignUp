@@ -31,7 +31,6 @@ namespace CourseSignUp.Domain.Tests
         {
             ConfigureServices(serviceCollection);
             Services = serviceCollection.BuildServiceProvider();
-            //ApplicationContext = Services.GetService<IApplicationContext>();
         }
 
         [TestInitialize]
@@ -43,20 +42,6 @@ namespace CourseSignUp.Domain.Tests
 
         private void ConfigureServices(IServiceCollection serviceCollection)
         {
-            //Mock<IApplicationContext> mockApplicationContext = new Mock<IApplicationContext>();
-
-            //var mockCursosSet = new List<Course>().AsQueryable();
-
-            ////mockApplicationContext.Setup(x => x.Set<Course>())
-            ////    .Returns(mockCursosSet);
-
-            //serviceCollection.AddSingleton(typeof(IApplicationContext), mockApplicationContext.Object);
-
-            //Mock<IStudentRepository> mockStudentRepository = new Mock<IStudentRepository>();
-            //serviceCollection.AddSingleton(typeof(IStudentRepository), mockStudentRepository.Object);
-
-
-
             serviceCollection.AddSingleton(typeof(ICourseRepository), mockCourseRepository.Object);
             serviceCollection.AddTransient<ICourseService, CourseService>();
         }
