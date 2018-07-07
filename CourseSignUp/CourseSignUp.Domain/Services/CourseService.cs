@@ -26,6 +26,11 @@ namespace CourseSignUp.Domain.Services
             var course = courseRepository.GetCourse(input.CourseId);
             var students = courseRepository.GetStudents(input.CourseId);
 
+            if (students.Contains(new Student(input.Name, input.BirthDate)))
+            {
+                throw new StudentAlreadyEnrolled();
+            }
+
             if (students.Count >= course.MaxStudentCount)
             {
                 throw new CourseOverbookException();

@@ -71,7 +71,7 @@ namespace CourseSignUp.Domain.Tests
         }
 
         [TestMethod]
-        public void SignUpStudent_OK()
+        public void SignUpStudent_One_Place_Left()
         {
             ICourseService courseService = Services.GetService<ICourseService>();
 
@@ -97,6 +97,32 @@ namespace CourseSignUp.Domain.Tests
             mockCourseRepository.Verify(x => x.GetCourse(course.Id), Times.Once());
             mockCourseRepository.Verify(x => x.GetStudents(course.Id), Times.Once());
             mockCourseRepository.Verify(x => x.SignUpStudent(signUpInput), Times.Once());
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(StudentAlreadyEnrolled))]
+        public void SignUpStudent_Student_Already_Enrolled()
+        {
+            ICourseService courseService = Services.GetService<ICourseService>();
+
+            Course course = new Course("History", 30) { Id = 1 };
+            IList<Student> students = new List<Student>
+            {
+                new Student("José da Silva", new DateTime(1990, 01, 01))
+            };
+
+            mockCourseRepository
+                .Setup(r => r.GetCourse(course.Id))
+                .Returns(course);
+
+            mockCourseRepository
+                .Setup(r => r.GetStudents(course.Id))
+                .Returns(students);
+
+            SignUpInput signUpInput = new SignUpInput(course.Id, "José da Silva", new DateTime(1990, 1, 1));
+
+            courseService.SignUpStudent(signUpInput);
         }
 
         [TestMethod]
@@ -126,10 +152,6 @@ namespace CourseSignUp.Domain.Tests
             SignUpInput signUpInput = new SignUpInput(course.Id, "José da Silva", new DateTime(1990, 1, 1));
 
             courseService.SignUpStudent(signUpInput);
-
-            mockCourseRepository.Verify(x => x.GetCourse(course.Id), Times.Once());
-            mockCourseRepository.Verify(x => x.GetStudents(course.Id), Times.Once());
-            mockCourseRepository.Verify(x => x.SignUpStudent(signUpInput), Times.Once());
         }
     }
 }
