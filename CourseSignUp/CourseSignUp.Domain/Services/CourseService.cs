@@ -1,4 +1,5 @@
-﻿using CourseSignUp.Domain.Model;
+﻿using CourseSignUp.Domain.Exceptions;
+using CourseSignUp.Domain.Model;
 using CourseSignUp.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,14 @@ namespace CourseSignUp.Domain.Services
             if (input == null)
             {
                 throw new ArgumentNullException(nameof(input));
+            }
+
+            var course = courseRepository.GetCourse(input.CourseId);
+            var students = courseRepository.GetStudents(input.CourseId);
+
+            if (students.Count >= course.MaxStudentCount)
+            {
+                throw new CourseOverbookException();
             }
 
             courseRepository.SignUpStudent(input);

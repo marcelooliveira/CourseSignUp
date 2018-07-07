@@ -23,6 +23,24 @@ namespace CourseSignUp.Data.Repositories
             this.studentRepository = studentRepository;
         }
 
+        public Course GetCourse(int courseId)
+        {
+            Course course = dbSet.Where(c => c.Id == courseId).SingleOrDefault();
+            if (course == null)
+            {
+                throw new ArgumentException($"Course not found: {courseId}");
+            }
+            return course;
+        }
+
+        public IList<Student> GetStudents(int courseId)
+        {
+            return context.Set<Enrollment>()
+                .Where(e => e.Course.Id == courseId)
+                .Select(e => e.Student)
+                .ToList();
+        }
+
         public void SignUpStudent(SignUpInput input)
         {
             if (input == null)
@@ -43,5 +61,6 @@ namespace CourseSignUp.Data.Repositories
 
             context.SaveChanges();
         }
+
     }
 }

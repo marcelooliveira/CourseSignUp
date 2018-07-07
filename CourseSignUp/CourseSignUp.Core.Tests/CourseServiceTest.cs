@@ -10,13 +10,15 @@ using System.Linq;
 using System.Collections.Generic;
 using CourseSignUp.Domain.Services;
 using CourseSignUp.Domain.Repositories;
+using CourseSignUp.Domain.Exceptions;
 
 namespace CourseSignUp.Domain.Tests
 {
     [TestClass]
     public class CourseServiceTest
     {
-        public IServiceProvider Services { get; set; }
+        private IServiceProvider Services { get; set; }
+        private Mock<ICourseRepository> mockCourseRepository = new Mock<ICourseRepository>();
 
         IServiceCollection serviceCollection = new ServiceCollection();
 
@@ -55,7 +57,6 @@ namespace CourseSignUp.Domain.Tests
 
 
 
-            Mock<ICourseRepository> mockCourseRepository = new Mock<ICourseRepository>();
             serviceCollection.AddSingleton(typeof(ICourseRepository), mockCourseRepository.Object);
             serviceCollection.AddTransient<ICourseService, CourseService>();
         }
@@ -72,9 +73,63 @@ namespace CourseSignUp.Domain.Tests
         [TestMethod]
         public void SignUpStudent_OK()
         {
-            //ICourseRepository courseRepository = Services.GetService<ICourseRepository>();
+            ICourseService courseService = Services.GetService<ICourseService>();
 
-            //courseRepository.SignUpStudent(new SignUpInput(1, "José da Silva", new DateTime(1990, 1, 1)));
+            Course course = new Course("History", 30) { Id = 1 };
+            IList<Student> students = new List<Student>
+            {
+                new Student("Student 1", new DateTime(1990, 01, 01)),
+                new Student("Student 2", new DateTime(1990, 01, 01))
+            };
+
+            mockCourseRepository
+                .Setup(r => r.GetCourse(course.Id))
+                .Returns(course);
+
+            mockCourseRepository
+                .Setup(r => r.GetStudents(course.Id))
+                .Returns(students);
+
+            SignUpInput signUpInput = new SignUpInput(course.Id, "José da Silva", new DateTime(1990, 1, 1));
+
+            courseService.SignUpStudent(signUpInput);
+
+            mockCourseRepository.Verify(x => x.GetCourse(course.Id), Times.Once());
+            mockCourseRepository.Verify(x => x.GetStudents(course.Id), Times.Once());
+            mockCourseRepository.Verify(x => x.SignUpStudent(signUpInput), Times.Once());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(CourseOverbookException))]
+        public void SignUpStudent_With_Full_Enrollment()
+        {
+            ICourseService courseService = Services.GetService<ICourseService>();
+
+            Course course = new Course("History", 5) { Id = 1 };
+            IList<Student> students = new List<Student>
+            {
+                new Student("Student 1", new DateTime(1990, 01, 01)),
+                new Student("Student 2", new DateTime(1990, 01, 01)),
+                new Student("Student 3", new DateTime(1990, 01, 01)),
+                new Student("Student 4", new DateTime(1990, 01, 01)),
+                new Student("Student 5", new DateTime(1990, 01, 01))
+            };
+
+            mockCourseRepository
+                .Setup(r => r.GetCourse(course.Id))
+                .Returns(course);
+
+            mockCourseRepository
+                .Setup(r => r.GetStudents(course.Id))
+                .Returns(students);
+
+            SignUpInput signUpInput = new SignUpInput(course.Id, "José da Silva", new DateTime(1990, 1, 1));
+
+            courseService.SignUpStudent(signUpInput);
+
+            mockCourseRepository.Verify(x => x.GetCourse(course.Id), Times.Once());
+            mockCourseRepository.Verify(x => x.GetStudents(course.Id), Times.Once());
+            mockCourseRepository.Verify(x => x.SignUpStudent(signUpInput), Times.Once());
         }
     }
 }
