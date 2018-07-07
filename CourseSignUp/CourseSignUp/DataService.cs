@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using CourseSignUp.Domain.Model;
+using System.Linq;
 
 namespace CourseSignUp
 {
@@ -20,9 +21,18 @@ namespace CourseSignUp
         {
             context.Database.Migrate();
 
-            context.Courses.Add(new Course("HIS", "History", 5));
-            context.Courses.Add(new Course("ENG", "English", 5));
-            context.Courses.Add(new Course("PHI", "Philosophy", 5));
+            AddInitialCourses();
+        }
+
+        private void AddInitialCourses()
+        {
+            if (context.Courses.Count() == 0)
+            {
+                context.Courses.Add(new Course("HIS", "History", 5));
+                context.Courses.Add(new Course("ENG", "English", 5));
+                context.Courses.Add(new Course("PHI", "Philosophy", 5));
+                context.SaveChanges();
+            }
         }
     }
 }

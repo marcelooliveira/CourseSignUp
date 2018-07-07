@@ -5,6 +5,10 @@ namespace CourseSignUp.Domain.Model
 {
     public class Student : BaseModel
     {
+        public Student()
+        {
+
+        }
         public Student(string name, DateTime birthDate)
         {
             Name = name;

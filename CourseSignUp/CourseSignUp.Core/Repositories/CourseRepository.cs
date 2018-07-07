@@ -48,16 +48,17 @@ namespace CourseSignUp.Data.Repositories
                 throw new ArgumentNullException(nameof(input));
             }
 
-            Microsoft.EntityFrameworkCore.DbSet<Course> set = context.Set<Course>();
-            Course course = set.Where(c => c.Code == input.CourseCode).SingleOrDefault();
+            Course course = dbSet.Where(c => c.Code == input.CourseCode).SingleOrDefault();
 
-            if (course != null)
+            if (course == null)
             {
-                throw new ArgumentException("Course Id not found.");
+                throw new ArgumentException("Course code not found.");
             }
 
             var student = studentRepository.Save(input.Name, input.BirthDate);
-            context.Set<Enrollment>().Add(new Enrollment(course, student));
+            context.SaveChanges();
+
+            context.Set<Enrollment>().Add(new Enrollment(course.Id, student.Id));
 
             context.SaveChanges();
         }

@@ -1,7 +1,10 @@
-﻿namespace CourseSignUp.Domain.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CourseSignUp.Domain.Model
 {
-    public class BaseModel
+    public abstract class BaseModel
     {
+        [Key]
         public int Id { get; set; }
         public string Code { get; set; }
     }
