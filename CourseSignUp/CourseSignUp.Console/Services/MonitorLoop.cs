@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RabbitMQ.Client;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +12,7 @@ namespace BackgroundTasksSample.Services
         private readonly IBackgroundTaskQueue _taskQueue;
         private readonly ILogger _logger;
         private readonly CancellationToken _cancellationToken;
+        private readonly IModel _channel;
 
         public MonitorLoop(IBackgroundTaskQueue taskQueue, ILogger<MonitorLoop> logger, IApplicationLifetime applicationLifetime)
         {
@@ -28,15 +30,15 @@ namespace BackgroundTasksSample.Services
         public void Monitor()
         {
             Console.WriteLine();
-            Console.WriteLine("Tap W to add a work item to the background queue ...");
+            Console.WriteLine("Tap 1 to add a work item to the background queue ...");
             Console.WriteLine();
 
             while (!_cancellationToken.IsCancellationRequested)
             {
-                var keyStroke = Console.ReadKey();
+                //var keyStroke = Console.ReadKey();
 
-                if (keyStroke.Key == ConsoleKey.W)
-                {
+                //if (keyStroke.Key == ConsoleKey.D1)
+                //{
                     // Enqueue a background work item
                     _taskQueue.QueueBackgroundWorkItem(async token =>
                     {
@@ -52,8 +54,13 @@ namespace BackgroundTasksSample.Services
                         _logger.LogInformation(
                             $"Queued Background Task {guid} is complete. 3/3");
                     });
-                }
+                //}
             }
+
+            //channel.Close();
+            //conn.Close();
+            //_rabbitMQConnection = rabbitMQConnection;
+            //_channel = _rabbitMQConnection.CreateModel();
         }
     }
 }

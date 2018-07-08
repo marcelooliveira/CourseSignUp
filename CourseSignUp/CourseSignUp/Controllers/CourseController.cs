@@ -7,12 +7,17 @@ using CourseSignUp.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using CourseSignUp.Domain.Repositories;
 using CourseSignUp.Domain.Services;
+using RabbitMQ.Client;
 
 namespace CourseSignUp.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        private const string queueName = "sign-up-student";
+        private const string exchangeName = "exchange-sign-up-student";
+        private const string routingKey = "routing-key";
+
         private readonly ICourseService courseService;
 
         public ValuesController(ICourseService courseService)
@@ -38,6 +43,23 @@ namespace CourseSignUp.Controllers
         [HttpPost]
         public void Post([FromBody]SignUpInput input)
         {
+            ConnectionFactory factory = new ConnectionFactory
+            {
+                UserName = "guest",
+                Password = "guest",
+                VirtualHost = "/",
+                HostName = "localhost"
+            };
+
+            IConnection rabbitMQConnection = factory.CreateConnection();
+            var channel = rabbitMQConnection.CreateModel();
+
+            byte[] messageBodyBytes = System.Text.Encoding.UTF8.GetBytes("Hello, world!");
+            channel.BasicPublish(exchangeName, routingKey, null, messageBodyBytes);
+
+            channel.Close();
+            rabbitMQConnection.Close();
+
             courseService.SignUpStudent(input);
         }
 
