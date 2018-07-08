@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseSignUp.Data", "Course
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseSignUp.Domain.Tests", "CourseSignUp.Core.Tests\CourseSignUp.Domain.Tests.csproj", "{A677DAF1-FEF8-47B3-9B5A-CDCC13686285}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseSignUp.Domain", "CourseSignUp.Domain\CourseSignUp.Domain.csproj", "{28CCD1D1-2EBA-4902-BA97-B5BEC68452FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseSignUp.Domain", "CourseSignUp.Domain\CourseSignUp.Domain.csproj", "{28CCD1D1-2EBA-4902-BA97-B5BEC68452FF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseSignUp.Console", "CourseSignUp.Console\CourseSignUp.Console.csproj", "{6FC1C6B5-1FB9-4E29-ABB5-9C53AF39920C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{28CCD1D1-2EBA-4902-BA97-B5BEC68452FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28CCD1D1-2EBA-4902-BA97-B5BEC68452FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28CCD1D1-2EBA-4902-BA97-B5BEC68452FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FC1C6B5-1FB9-4E29-ABB5-9C53AF39920C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FC1C6B5-1FB9-4E29-ABB5-9C53AF39920C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FC1C6B5-1FB9-4E29-ABB5-9C53AF39920C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FC1C6B5-1FB9-4E29-ABB5-9C53AF39920C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
