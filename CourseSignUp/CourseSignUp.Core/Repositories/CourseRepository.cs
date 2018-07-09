@@ -24,14 +24,17 @@ namespace CourseSignUp.Data.Repositories
             this.studentRepository = studentRepository;
         }
 
-        public Course GetCourse(string courseCode)
+        public Task<Course> GetCourse(string courseCode)
         {
-            Course course = dbSet.Where(c => c.Code == courseCode).SingleOrDefault();
-            if (course == null)
+            return Task.Run(() =>
             {
-                throw new ArgumentException($"Course not found: {courseCode}");
-            }
-            return course;
+                Course course = dbSet.Where(c => c.Code == courseCode).SingleOrDefault();
+                if (course == null)
+                {
+                    throw new ArgumentException($"Course not found: {courseCode}");
+                }
+                return course;
+            });
         }
 
         public IList<Student> GetStudents(string courseCode)
@@ -67,9 +70,23 @@ namespace CourseSignUp.Data.Repositories
             });
         }
 
-        public Task UpdateCourseStats(int StudentCount, DateTime? MinBirthdat, DateTime? MaxBirthdat, long BirthdateTickSum)
+        public Task UpdateCourseStats(string courseCode, int studentCount, DateTime? minBirthdate, DateTime? maxBirthdate, long birthdateTickSum)
         {
-            throw new NotImplementedException();
+            return Task.Run(() =>
+            {
+                var course = dbSet.Where(c => c.Code == courseCode).SingleOrDefault();
+
+                if (course == null)
+                {
+                    throw new ArgumentException("Course code not found.");
+                }
+
+                course.StudentCount = studentCount;
+                course.MinBirthdate = minBirthdate;
+                course.MaxBirthdate = maxBirthdate;
+                course.BirthdateTickSum = birthdateTickSum;
+                context.SaveChanges();
+            });
         }
     }
 }
