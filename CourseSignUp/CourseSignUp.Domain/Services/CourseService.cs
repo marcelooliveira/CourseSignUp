@@ -3,6 +3,7 @@ using CourseSignUp.Domain.Model;
 using CourseSignUp.Domain.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,6 +39,18 @@ namespace CourseSignUp.Domain.Services
             }
 
             await courseRepository.SignUpStudent(input);
+
+            DateTime minBirthdate = course.MinBirthdate ?? DateTime.MaxValue;
+            if (DateTime.Compare(minBirthdate, input.BirthDate) < 0)
+                minBirthdate = input.BirthDate;
+
+            DateTime maxBirthdate = course.MaxBirthdate ?? DateTime.MinValue;
+            if (DateTime.Compare(minBirthdate, input.BirthDate) > 0)
+                maxBirthdate = input.BirthDate;
+
+            long birthdateTickSum = course.BirthdateTickSum + input.BirthDate.Ticks;
+
+            await courseRepository.UpdateCourseStats(students.Count(), minBirthdate, maxBirthdate, birthdateTickSum);
         }
     }
 }

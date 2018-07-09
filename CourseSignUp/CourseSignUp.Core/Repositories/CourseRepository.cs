@@ -67,5 +67,9 @@ namespace CourseSignUp.Data.Repositories
             });
         }
 
+        public Task UpdateCourseStats(int StudentCount, DateTime? MinBirthdat, DateTime? MaxBirthdat, long BirthdateTickSum)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

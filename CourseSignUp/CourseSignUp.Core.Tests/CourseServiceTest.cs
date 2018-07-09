@@ -60,11 +60,11 @@ namespace CourseSignUp.Domain.Tests
         {
             ICourseService courseService = Services.GetService<ICourseService>();
 
-            Course course = new Course("HIS", "History", 30) { Id = 1 };
+            Course course = new Course("HIS", "History", 3) { Id = 1 };
             IList<Student> students = new List<Student>
             {
-                new Student("Student 1", new DateTime(1990, 01, 01)),
-                new Student("Student 2", new DateTime(1990, 01, 01))
+                new Student("Student 1", new DateTime(1990, 2, 1)),
+                new Student("Student 2", new DateTime(1995, 3, 2))
             };
 
             mockCourseRepository
@@ -75,13 +75,23 @@ namespace CourseSignUp.Domain.Tests
                 .Setup(r => r.GetStudents(course.Code))
                 .Returns(students);
 
-            SignUpInput signUpInput = new SignUpInput(course.Code, "José da Silva", new DateTime(1990, 1, 1));
+            SignUpInput signUpInput = new SignUpInput(course.Code, "José da Silva", new DateTime(1998, 1, 1));
 
             courseService.SignUpStudent(signUpInput);
 
             mockCourseRepository.Verify(x => x.GetCourse(course.Code), Times.Once());
             mockCourseRepository.Verify(x => x.GetStudents(course.Code), Times.Once());
             mockCourseRepository.Verify(x => x.SignUpStudent(signUpInput), Times.Once());
+            mockCourseRepository.Verify(x => 
+                x.UpdateCourseStats(
+                    3, 
+                    new DateTime(1990, 2, 1), 
+                    new DateTime(1998, 4, 3), 
+                        new DateTime(1990, 2, 1).Ticks + 
+                        new DateTime(1995, 3, 2).Ticks +
+                        new DateTime(1998, 4, 3).Ticks
+                )
+                , Times.Once());
         }
 
 
@@ -108,6 +118,8 @@ namespace CourseSignUp.Domain.Tests
             SignUpInput signUpInput = new SignUpInput(course.Code, "José da Silva", new DateTime(1990, 1, 1));
 
             courseService.SignUpStudent(signUpInput);
+
+            mockCourseRepository.Verify(x => x.UpdateCourseStats(It.IsAny<int>(), It.IsAny<DateTime?>(), It.IsAny<DateTime?>(), It.IsAny<long>()), Times.Never());
         }
 
         [TestMethod]
@@ -137,6 +149,8 @@ namespace CourseSignUp.Domain.Tests
             SignUpInput signUpInput = new SignUpInput(course.Code, "José da Silva", new DateTime(1990, 1, 1));
 
             courseService.SignUpStudent(signUpInput);
+
+            mockCourseRepository.Verify(x => x.UpdateCourseStats(It.IsAny<int>(), It.IsAny<DateTime?>(), It.IsAny<DateTime?>(), It.IsAny<long>()), Times.Never());
         }
     }
 }
