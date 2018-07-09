@@ -24,7 +24,7 @@ namespace BackgroundTasksSample.Services
         private const string exchangeName = "exchange-sign-up-student";
         private const string routingKey = "routing-key";
 
-        public SignupMessageSubscriber(IBackgroundTaskQueue taskQueue, ILogger<MonitorLoop> logger, IApplicationLifetime applicationLifetime, IConnection rabbitMQConn, ICourseService courseService)
+        public SignupMessageSubscriber(IBackgroundTaskQueue taskQueue, ILogger<SignupMessageSubscriber> logger, IApplicationLifetime applicationLifetime, IConnection rabbitMQConn, ICourseService courseService)
         {
             _taskQueue = taskQueue;
             _logger = logger;

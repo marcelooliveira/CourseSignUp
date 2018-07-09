@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 namespace CourseSignUp.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class CourseController : Controller
     {
         private const string queueName = "sign-up-student";
         private const string exchangeName = "exchange-sign-up-student";
@@ -21,7 +21,7 @@ namespace CourseSignUp.Controllers
 
         private readonly ICourseService courseService;
 
-        public ValuesController(ICourseService courseService)
+        public CourseController(ICourseService courseService)
         {
             this.courseService = courseService;
         }

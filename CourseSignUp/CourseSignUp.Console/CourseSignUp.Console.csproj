@@ -12,6 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\ConsumeScopedServiceHostedService.cs" />
+    <Compile Remove="Services\MonitorLoop.cs" />
+    <Compile Remove="Services\ScopedProcessingService.cs" />
+    <Compile Remove="Services\TimedHostedService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="appsettings.json" />
   </ItemGroup>
 

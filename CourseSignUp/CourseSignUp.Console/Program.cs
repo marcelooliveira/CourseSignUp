@@ -54,17 +54,17 @@ namespace CourseSignUp.Console
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddLogging();
-                    services.AddSingleton<MonitorLoop>();
+                    //services.AddSingleton<MonitorLoop>();
                     services.AddSingleton<SignupMessageSubscriber>();
 
-                    #region snippet1
-                    services.AddHostedService<TimedHostedService>();
-                    #endregion
+                    //#region snippet1
+                    //services.AddHostedService<TimedHostedService>();
+                    //#endregion
 
-                    #region snippet2
-                    services.AddHostedService<ConsumeScopedServiceHostedService>();
-                    services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
-                    #endregion
+                    //#region snippet2
+                    //services.AddHostedService<ConsumeScopedServiceHostedService>();
+                    //services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
+                    //#endregion
 
                     #region snippet3
                     services.AddHostedService<QueuedHostedService>();

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace CourseSignUp.Migrations
+namespace CourseSignUp.Data.Migrations
 {
     public partial class Initial : Migration
     {
@@ -15,8 +15,13 @@ namespace CourseSignUp.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BirthdateTickSum = table.Column<long>(nullable: false),
+                    Code = table.Column<string>(nullable: true),
+                    MaxBirthdate = table.Column<DateTime>(nullable: true),
                     MaxStudentCount = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    MinBirthdate = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    StudentCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,6 +35,7 @@ namespace CourseSignUp.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     BirthDate = table.Column<DateTime>(nullable: false),
+                    Code = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -43,6 +49,7 @@ namespace CourseSignUp.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Code = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -56,8 +63,9 @@ namespace CourseSignUp.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CourseId = table.Column<int>(nullable: true),
-                    StudentId = table.Column<int>(nullable: true)
+                    Code = table.Column<string>(nullable: true),
+                    CourseId = table.Column<int>(nullable: false),
+                    StudentId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,13 +75,13 @@ namespace CourseSignUp.Migrations
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Enrollments_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

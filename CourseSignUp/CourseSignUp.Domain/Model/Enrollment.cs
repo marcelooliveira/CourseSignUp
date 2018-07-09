@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CourseSignUp.Domain.Model
 {
@@ -14,9 +15,11 @@ namespace CourseSignUp.Domain.Model
             StudentId = studentId;
         }
 
+        [Required]
         public virtual int CourseId { get; set; }
         public virtual Course Course { get; set; }
 
+        [Required]
         public virtual int StudentId { get; set; }
         public virtual Student Student { get; set; }
     }
