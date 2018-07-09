@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using CourseSignUp.Domain.Repositories;
 using CourseSignUp.Domain.Services;
 using RabbitMQ.Client;
+using Newtonsoft.Json;
 
 namespace CourseSignUp.Controllers
 {
@@ -54,13 +55,15 @@ namespace CourseSignUp.Controllers
             IConnection rabbitMQConnection = factory.CreateConnection();
             var channel = rabbitMQConnection.CreateModel();
 
-            byte[] messageBodyBytes = System.Text.Encoding.UTF8.GetBytes("Hello, world!");
+            var json = JsonConvert.SerializeObject(input);
+
+            byte[] messageBodyBytes = System.Text.Encoding.UTF8.GetBytes(json);
             channel.BasicPublish(exchangeName, routingKey, null, messageBodyBytes);
 
             channel.Close();
             rabbitMQConnection.Close();
 
-            courseService.SignUpStudent(input);
+            //courseService.SignUpStudent(input);
         }
 
         // PUT api/values/5

@@ -4,6 +4,7 @@ using CourseSignUp.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CourseSignUp.Domain.Services
 {
@@ -16,7 +17,7 @@ namespace CourseSignUp.Domain.Services
             this.courseRepository = courseRepository;
         }
 
-        public void SignUpStudent(SignUpInput input)
+        public async Task SignUpStudent(SignUpInput input)
         {
             if (input == null)
             {
@@ -36,7 +37,7 @@ namespace CourseSignUp.Domain.Services
                 throw new CourseOverbookException();
             }
 
-            courseRepository.SignUpStudent(input);
+            await courseRepository.SignUpStudent(input);
         }
     }
 }

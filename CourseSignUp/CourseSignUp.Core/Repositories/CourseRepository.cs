@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using CourseSignUp.Domain.Repositories;
+using System.Threading.Tasks;
 
 namespace CourseSignUp.Data.Repositories
 {
@@ -41,26 +42,29 @@ namespace CourseSignUp.Data.Repositories
                 .ToList();
         }
 
-        public void SignUpStudent(SignUpInput input)
+        public Task SignUpStudent(SignUpInput input)
         {
-            if (input == null)
+            return Task.Run(() =>
             {
-                throw new ArgumentNullException(nameof(input));
-            }
+                if (input == null)
+                {
+                    throw new ArgumentNullException(nameof(input));
+                }
 
-            Course course = dbSet.Where(c => c.Code == input.CourseCode).SingleOrDefault();
+                Course course = dbSet.Where(c => c.Code == input.CourseCode).SingleOrDefault();
 
-            if (course == null)
-            {
-                throw new ArgumentException("Course code not found.");
-            }
+                if (course == null)
+                {
+                    throw new ArgumentException("Course code not found.");
+                }
 
-            var student = studentRepository.Save(input.Name, input.BirthDate);
-            context.SaveChanges();
+                var student = studentRepository.Save(input.Name, input.BirthDate);
+                context.SaveChanges();
 
-            context.Set<Enrollment>().Add(new Enrollment(course.Id, student.Id));
+                context.Set<Enrollment>().Add(new Enrollment(course.Id, student.Id));
 
-            context.SaveChanges();
+                context.SaveChanges();
+            });
         }
 
     }

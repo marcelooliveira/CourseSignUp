@@ -1,9 +1,10 @@
 ﻿using CourseSignUp.Domain.Model;
+using System.Threading.Tasks;
 
 namespace CourseSignUp.Domain.Services
 {
     public interface ICourseService
     {
-        void SignUpStudent(SignUpInput input);
+        Task SignUpStudent(SignUpInput input);
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using CourseSignUp.Domain.Model;
 using System.Linq;
+using CourseSignUp.Data;
 
 namespace CourseSignUp
 {

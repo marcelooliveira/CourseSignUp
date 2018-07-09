@@ -1,4 +1,9 @@
 ﻿using BackgroundTasksSample.Services;
+using CourseSignUp.Data;
+using CourseSignUp.Data.Repositories;
+using CourseSignUp.Domain.Repositories;
+using CourseSignUp.Domain.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -7,6 +12,9 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.SqlServer;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Linq;
 
 namespace CourseSignUp.Console
 {
@@ -16,8 +24,20 @@ namespace CourseSignUp.Console
         private const string exchangeName = "exchange-sign-up-student";
         private const string routingKey = "routing-key";
 
+        public static IConfigurationRoot Configuration { get; set; }
+
         static async Task Main(string[] args)
         {
+            //var builder = new ConfigurationBuilder()
+            //    //.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            //    // You can't use environment specific configuration files like this
+            //    // becuase IHostingEnvironment is an ASP.NET Core specific interface
+            //    //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+            //    //.AddUserSecrets()
+            //    .AddEnvironmentVariables();
+
+            //Configuration = builder.Build();
+
             var host = new HostBuilder()
                 .ConfigureLogging((hostContext, config) =>
                 {
@@ -26,7 +46,7 @@ namespace CourseSignUp.Console
                 })
                 .ConfigureAppConfiguration((hostContext, config) =>
                 {
-                    config.AddEnvironmentVariables();
+                    //config.AddEnvironmentVariables();
                     config.AddJsonFile("appsettings.json", optional: true);
                     config.AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true);
                     config.AddCommandLine(args);
@@ -50,6 +70,17 @@ namespace CourseSignUp.Console
                     services.AddHostedService<QueuedHostedService>();
                     services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
                     #endregion
+
+                    var configuration = hostContext.Configuration.ToString();
+                    var children = hostContext.Configuration.GetChildren().ToList();
+
+                    services.AddDbContext<ApplicationContext>(options =>
+                        options.UseSqlServer(hostContext.Configuration.GetConnectionString("Default")));
+
+                    services.AddTransient<IApplicationContext, ApplicationContext>();
+                    services.AddTransient<ICourseService, CourseService>();
+                    services.AddTransient<ICourseRepository, CourseRepository>();
+                    services.AddTransient<IStudentRepository, StudentRepository>();
 
                     ConnectionFactory factory = new ConnectionFactory
                     {
