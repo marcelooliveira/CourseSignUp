@@ -53,7 +53,7 @@ namespace CourseSignUp
 
             app.UseMvc();
 
-            //serviceProvider.GetService<IDataService>().InitializeDB();
+            serviceProvider.GetService<IDataService>().InitializeDB();
         }
     }
 }

@@ -26,21 +26,21 @@ namespace CourseSignUp.Controllers
             this.courseService = courseService;
         }
 
-        // GET api/values
+        // GET api/Course
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET api/Course/HIS
+        [HttpGet("{courseCode}")]
+        public async Task<CourseStatsResultDTO> Get(string courseCode)
         {
-            return "value";
+            return await courseService.GetCourseStats(courseCode);
         }
 
-        // POST api/values
+        // POST api/Course
         [HttpPost]
         public void Post([FromBody]SignUpInput input)
         {
@@ -62,17 +62,15 @@ namespace CourseSignUp.Controllers
 
             channel.Close();
             rabbitMQConnection.Close();
-
-            //courseService.SignUpStudent(input);
         }
 
-        // PUT api/values/5
+        // PUT api/Course/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE api/values/5
+        // DELETE api/Course/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
