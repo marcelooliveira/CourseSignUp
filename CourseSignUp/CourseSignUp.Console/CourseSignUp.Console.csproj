@@ -54,6 +54,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CourseSignUp.Core\CourseSignUp.Data.csproj" />
-    <ProjectReference Include="..\CourseSignUp.Domain\CourseSignUp.Domain.csproj" />
   </ItemGroup>
 </Project>

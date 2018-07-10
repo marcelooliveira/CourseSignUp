@@ -28,16 +28,6 @@ namespace CourseSignUp.Console
 
         static async Task Main(string[] args)
         {
-            //var builder = new ConfigurationBuilder()
-            //    //.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            //    // You can't use environment specific configuration files like this
-            //    // becuase IHostingEnvironment is an ASP.NET Core specific interface
-            //    //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-            //    //.AddUserSecrets()
-            //    .AddEnvironmentVariables();
-
-            //Configuration = builder.Build();
-
             var host = new HostBuilder()
                 .ConfigureLogging((hostContext, config) =>
                 {
@@ -46,7 +36,6 @@ namespace CourseSignUp.Console
                 })
                 .ConfigureAppConfiguration((hostContext, config) =>
                 {
-                    //config.AddEnvironmentVariables();
                     config.AddJsonFile("appsettings.json", optional: true);
                     config.AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true);
                     config.AddCommandLine(args);
@@ -54,17 +43,7 @@ namespace CourseSignUp.Console
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddLogging();
-                    //services.AddSingleton<MonitorLoop>();
                     services.AddSingleton<SignupMessageSubscriber>();
-
-                    //#region snippet1
-                    //services.AddHostedService<TimedHostedService>();
-                    //#endregion
-
-                    //#region snippet2
-                    //services.AddHostedService<ConsumeScopedServiceHostedService>();
-                    //services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
-                    //#endregion
 
                     #region snippet3
                     services.AddHostedService<QueuedHostedService>();
@@ -101,47 +80,11 @@ namespace CourseSignUp.Console
                 // Start the host
                 await host.StartAsync();
 
-                // Monitor for new background queue work items
-                //var monitorLoop = host.Services.GetRequiredService<MonitorLoop>();
-                //monitorLoop.StartMonitorLoop();
-
-                //ConnectionFactory factory = new ConnectionFactory
-                //{
-                //    UserName = "guest",
-                //    Password = "guest",
-                //    VirtualHost = "/",
-                //    HostName = "localhost"
-                //};
-
-                //IConnection rabbitMQConnection = factory.CreateConnection();
-
                 var signupMessageSubscriber = host.Services.GetRequiredService<SignupMessageSubscriber>();
                 signupMessageSubscriber.StartSignupMessageSubscriber();
 
-                //var channel = rabbitMQConnection.CreateModel();
-
-                //var consumer = new EventingBasicConsumer(channel);
-                //consumer.Received += (ch, ea) =>
-                //{
-                //    //_logger.LogInformation($"consumer.Received");
-
-                //    var body = ea.Body;
-                //    // ... process the message
-                //    channel.BasicAck(ea.DeliveryTag, false);
-                //};
-
-                //channel.ExchangeDeclare(exchangeName, ExchangeType.Direct);
-                //channel.QueueDeclare(queueName, false, false, false, null);
-                //channel.QueueBind(queueName, exchangeName, routingKey, null);
-
-                //var response = channel.QueueDeclarePassive(queueName);
-                //String consumerTag = channel.BasicConsume(queueName, false, consumer);
-
                 // Wait for the host to shutdown
                 await host.WaitForShutdownAsync();
-
-                //channel.Close();
-                //rabbitMQConnection.Close();
             }
         }
     }

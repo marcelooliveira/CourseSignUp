@@ -12,11 +12,6 @@ namespace CourseSignUp.Data.Repositories
     {
         private readonly IStudentRepository studentRepository;
 
-        //public CourseRepository()
-        //{
-
-        //}
-
         public CourseRepository(IApplicationContext context,
             IStudentRepository studentRepository) : base(context)
         {

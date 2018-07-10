@@ -16,7 +16,6 @@ namespace BackgroundTasksSample.Services
         private readonly IBackgroundTaskQueue _taskQueue;
         private readonly ILogger _logger;
         private readonly CancellationToken _cancellationToken;
-        private readonly IModel _channel;
         private readonly IConnection _rabbitMQConn;
         private readonly ICourseService _courseService;
 
@@ -51,16 +50,6 @@ namespace BackgroundTasksSample.Services
 
             IConnection rabbitMQConnection = factory.CreateConnection();
             var channel = rabbitMQConnection.CreateModel();
-
-            //var consumer = new EventingBasicConsumer(channel);
-            //consumer.Received += (ch, ea) =>
-            //{
-            //    _logger.LogInformation($"consumer.Received");
-
-            //    var body = ea.Body;
-            //    // ... process the message
-            //    channel.BasicAck(ea.DeliveryTag, false);
-            //};
 
             channel.ExchangeDeclare(exchangeName, ExchangeType.Direct);
             channel.QueueDeclare(queueName, false, false, false, null);
@@ -112,8 +101,6 @@ namespace BackgroundTasksSample.Services
                         $"RUNNING: Queued Background Task - CourseCode: {signUpInput.CourseCode}, Name: {signUpInput.Name}, BirthDate: {signUpInput.BirthDate}");
 
                 await _courseService.SignUpStudent(signUpInput);
-
-                //await Task.Delay(TimeSpan.FromSeconds(5), token);
 
                 _logger.LogInformation(
                 $"COMPLETED: Queued Background Task - CourseCode: {signUpInput.CourseCode}, Name: {signUpInput.Name}, BirthDate: {signUpInput.BirthDate}");
