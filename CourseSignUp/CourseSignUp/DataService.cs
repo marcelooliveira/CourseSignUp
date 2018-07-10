@@ -29,9 +29,17 @@ namespace CourseSignUp
         {
             if (context.Courses.Count() == 0)
             {
-                context.Courses.Add(new Course("HIS", "History", 5));
-                context.Courses.Add(new Course("ENG", "English", 5));
-                context.Courses.Add(new Course("PHI", "Philosophy", 5));
+                Teacher teacher1 = new Teacher("John Doe");
+                Teacher teacher2 = new Teacher("José da Silva");
+                Teacher teacher3 = new Teacher("Fulano de Tal");
+                context.Teachers.Add(teacher1);
+                context.Teachers.Add(teacher2);
+                context.Teachers.Add(teacher3);
+                context.SaveChanges();
+
+                context.Courses.Add(new Course("HIS", "History", 5, teacher1.Id));
+                context.Courses.Add(new Course("ENG", "English", 5, teacher2.Id));
+                context.Courses.Add(new Course("PHI", "Philosophy", 5, teacher3.Id));
                 context.SaveChanges();
             }
         }

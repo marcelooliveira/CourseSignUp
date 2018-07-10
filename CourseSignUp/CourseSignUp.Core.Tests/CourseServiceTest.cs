@@ -64,7 +64,7 @@ namespace CourseSignUp.Domain.Tests
 
             IList<Student> students = new List<Student>();
 
-            Course course = new Course("HIS", "History", 3)
+            Course course = new Course("HIS", "History", 3, 1)
             {
                 Id = 1,
                 StudentCount = 0,
@@ -93,7 +93,7 @@ namespace CourseSignUp.Domain.Tests
 
             IList<Student> students = new List<Student>();
 
-            Course course = new Course("HIS", "History", 3)
+            Course course = new Course("HIS", "History", 3, 1)
             {
                 Id = 1,
                 StudentCount = 0,
@@ -139,7 +139,7 @@ namespace CourseSignUp.Domain.Tests
                 new Student("Student 2", new DateTime(1995, 3, 2))
             };
 
-            Course course = new Course("HIS", "History", 3)
+            Course course = new Course("HIS", "History", 3, 1)
             {
                 Id = 1,
                 StudentCount = students.Count(),
@@ -182,7 +182,7 @@ namespace CourseSignUp.Domain.Tests
         {
             ICourseService courseService = Services.GetService<ICourseService>();
 
-            Course course = new Course("HIS", "History", 30) { Id = 1 };
+            Course course = new Course("HIS", "History", 30, 1) { Id = 1 };
             IList<Student> students = new List<Student>
             {
                 new Student("José da Silva", new DateTime(1990, 01, 01))
@@ -209,7 +209,7 @@ namespace CourseSignUp.Domain.Tests
         {
             ICourseService courseService = Services.GetService<ICourseService>();
 
-            Course course = new Course("HIS", "History", 5) { Id = 1 };
+            Course course = new Course("HIS", "History", 5, 1) { Id = 1 };
             IList<Student> students = new List<Student>
             {
                 new Student("Student 1", new DateTime(1990, 01, 01)),
@@ -240,7 +240,7 @@ namespace CourseSignUp.Domain.Tests
         {
             ICourseService courseService = Services.GetService<ICourseService>();
 
-            Course course = new Course("HIS", "History", 3)
+            Course course = new Course("HIS", "History", 3, 1)
             {
                 Id = 1,
                 StudentCount = 0,
@@ -261,7 +261,7 @@ namespace CourseSignUp.Domain.Tests
         {
             ICourseService courseService = Services.GetService<ICourseService>();
 
-            Course course = new Course("HIS", "History", 3)
+            Course course = new Course("HIS", "History", 3, 1)
             {
                 Id = 1,
                 StudentCount = 0,
@@ -288,7 +288,7 @@ namespace CourseSignUp.Domain.Tests
         {
             ICourseService courseService = Services.GetService<ICourseService>();
 
-            Course course = new Course("HIS", "History", 3)
+            Course course = new Course("HIS", "History", 3, 1)
             {
                 Id = 1,
                 StudentCount = 1,
@@ -315,7 +315,7 @@ namespace CourseSignUp.Domain.Tests
         {
             ICourseService courseService = Services.GetService<ICourseService>();
 
-            Course course = new Course("HIS", "History", 3)
+            Course course = new Course("HIS", "History", 3, 1)
             {
                 Id = 1,
                 StudentCount = 2,
@@ -344,7 +344,7 @@ namespace CourseSignUp.Domain.Tests
         {
             ICourseService courseService = Services.GetService<ICourseService>();
 
-            Course course = new Course("HIS", "History", 3)
+            Course course = new Course("HIS", "History", 3, 1)
             {
                 Id = 1,
                 StudentCount = 3,

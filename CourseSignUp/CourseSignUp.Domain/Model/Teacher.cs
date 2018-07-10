@@ -8,6 +8,12 @@ namespace CourseSignUp.Domain.Model
         {
 
         }
+
+        public Teacher(string name)
+        {
+            Name = name;
+        }
+
         public string Name { get; set; }
     }
 }
