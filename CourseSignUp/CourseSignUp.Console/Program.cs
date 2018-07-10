@@ -57,6 +57,7 @@ namespace CourseSignUp.Console
                         options.UseSqlServer(hostContext.Configuration.GetConnectionString("Default")));
 
                     services.AddTransient<IApplicationContext, ApplicationContext>();
+                    services.AddTransient<IEmailService, EmailService>();
                     services.AddTransient<ICourseService, CourseService>();
                     services.AddTransient<ICourseRepository, CourseRepository>();
                     services.AddTransient<IStudentRepository, StudentRepository>();
