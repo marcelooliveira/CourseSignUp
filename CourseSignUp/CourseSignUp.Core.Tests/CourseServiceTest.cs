@@ -20,6 +20,7 @@ namespace CourseSignUp.Domain.Tests
     {
         private IServiceProvider Services { get; set; }
         private Mock<ICourseRepository> mockCourseRepository = new Mock<ICourseRepository>();
+        private Mock<IEmailService> mockIEmailService = new Mock<IEmailService>();
 
         IServiceCollection serviceCollection = new ServiceCollection();
 
@@ -43,6 +44,7 @@ namespace CourseSignUp.Domain.Tests
 
         private void ConfigureServices(IServiceCollection serviceCollection)
         {
+            serviceCollection.AddSingleton(typeof(IEmailService), mockIEmailService.Object);
             serviceCollection.AddSingleton(typeof(ICourseRepository), mockCourseRepository.Object);
             serviceCollection.AddTransient<ICourseService, CourseService>();
         }
@@ -101,6 +103,8 @@ namespace CourseSignUp.Domain.Tests
                 MaxBirthdate = (DateTime?)null,
                 BirthdateTickSum = 0
             };
+            
+            SignUpInput signUpInput = new SignUpInput(course.Code, "José da Silva", new DateTime(1998, 4, 3));
 
             mockCourseRepository
                 .Setup(r => r.GetCourse(course.Code))
@@ -109,8 +113,6 @@ namespace CourseSignUp.Domain.Tests
             mockCourseRepository
                 .Setup(r => r.GetStudents(course.Code))
                 .Returns(students);
-
-            SignUpInput signUpInput = new SignUpInput(course.Code, "José da Silva", new DateTime(1998, 4, 3));
 
             await courseService.SignUpStudent(signUpInput);
 
@@ -126,6 +128,7 @@ namespace CourseSignUp.Domain.Tests
                     signUpInput.BirthDate.Ticks
                 )
                 , Times.Once());
+            mockIEmailService.Verify(x => x.SendSignupSuccess(course, signUpInput), Times.Once());
         }
 
         [TestMethod]
@@ -174,10 +177,10 @@ namespace CourseSignUp.Domain.Tests
                         new DateTime(1998, 4, 3).Ticks
                 )
                 , Times.Once());
+            mockIEmailService.Verify(x => x.SendSignupSuccess(course, signUpInput), Times.Once());
         }
 
         [TestMethod]
-        [ExpectedException(typeof(StudentAlreadyEnrolled))]
         public async Task SignUpStudent_Student_Already_Enrolled()
         {
             ICourseService courseService = Services.GetService<ICourseService>();
@@ -199,12 +202,11 @@ namespace CourseSignUp.Domain.Tests
             SignUpInput signUpInput = new SignUpInput(course.Code, "José da Silva", new DateTime(1990, 1, 1));
 
             await courseService.SignUpStudent(signUpInput);
-
             mockCourseRepository.Verify(x => x.UpdateCourseStats(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<DateTime?>(), It.IsAny<DateTime?>(), It.IsAny<long>()), Times.Never());
+            mockIEmailService.Verify(x => x.SendSignupStudentAlreadyEnrolled(course, signUpInput), Times.Once());
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CourseOverbookException))]
         public async Task SignUpStudent_With_Full_Enrollment()
         {
             ICourseService courseService = Services.GetService<ICourseService>();
@@ -232,6 +234,7 @@ namespace CourseSignUp.Domain.Tests
             await courseService.SignUpStudent(signUpInput);
 
             mockCourseRepository.Verify(x => x.UpdateCourseStats(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<DateTime?>(), It.IsAny<DateTime?>(), It.IsAny<long>()), Times.Never());
+            mockIEmailService.Verify(x => x.SendSignupEnrollmentFull(course, signUpInput), Times.Once());
         }
 
         [TestMethod]

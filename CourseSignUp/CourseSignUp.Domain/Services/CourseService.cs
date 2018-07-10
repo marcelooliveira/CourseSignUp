@@ -12,10 +12,12 @@ namespace CourseSignUp.Domain.Services
     public class CourseService : ICourseService
     {
         private readonly ICourseRepository courseRepository;
+        private readonly IEmailService emailService;
 
-        public CourseService(ICourseRepository courseRepository)
+        public CourseService(ICourseRepository courseRepository, IEmailService emailService)
         {
             this.courseRepository = courseRepository;
+            this.emailService = emailService;
         }
 
         public async Task<CourseStatsResultDTO> GetCourseStats(string courseCode)
@@ -74,12 +76,14 @@ namespace CourseSignUp.Domain.Services
 
             if (students.Contains(new Student(input.Name, input.BirthDate)))
             {
-                throw new StudentAlreadyEnrolled();
+                emailService.SendSignupStudentAlreadyEnrolled(course, input);
+                return;
             }
 
             if (students.Count >= course.MaxStudentCount)
             {
-                throw new CourseOverbookException();
+                emailService.SendSignupEnrollmentFull(course, input);
+                return;
             }
 
             await courseRepository.SignUpStudent(input);
@@ -97,6 +101,8 @@ namespace CourseSignUp.Domain.Services
             long birthdateTickSum = course.BirthdateTickSum + input.BirthDate.Ticks;
 
             await courseRepository.UpdateCourseStats(input.CourseCode, studentCount, minBirthdate, maxBirthdate, birthdateTickSum);
+
+            emailService.SendSignupSuccess(course, input);
         }
 
         int GetAge(DateTime birthDate)
