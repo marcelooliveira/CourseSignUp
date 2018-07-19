@@ -2,7 +2,6 @@ using CourseSignUp.Data.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using Castle.Core.Logging;
 using System;
 using CourseSignUp.Domain.Model;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +11,7 @@ using CourseSignUp.Domain.Services;
 using CourseSignUp.Domain.Repositories;
 using CourseSignUp.Domain.Exceptions;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace CourseSignUp.Domain.Tests
 {
@@ -21,6 +21,7 @@ namespace CourseSignUp.Domain.Tests
         private IServiceProvider Services { get; set; }
         private Mock<ICourseRepository> mockCourseRepository = new Mock<ICourseRepository>();
         private Mock<IEmailService> mockIEmailService = new Mock<IEmailService>();
+        private Mock<ILogger<CourseService>> mockLogger = new Mock<ILogger<CourseService>>();
 
         IServiceCollection serviceCollection = new ServiceCollection();
 
@@ -46,6 +47,8 @@ namespace CourseSignUp.Domain.Tests
         {
             serviceCollection.AddSingleton(typeof(IEmailService), mockIEmailService.Object);
             serviceCollection.AddSingleton(typeof(ICourseRepository), mockCourseRepository.Object);
+            serviceCollection.AddSingleton(typeof(ILogger<CourseService>), mockLogger.Object);
+
             serviceCollection.AddTransient<ICourseService, CourseService>();
         }
 
