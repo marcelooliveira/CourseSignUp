@@ -1,6 +1,7 @@
 ﻿using CourseSignUp.Domain.Exceptions;
 using CourseSignUp.Domain.Model;
 using CourseSignUp.Domain.Repositories;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,14 @@ using System.Threading.Tasks;
 
 namespace CourseSignUp.Domain.Services
 {
-    public class CourseService : ICourseService
+    public class CourseService : BaseService, ICourseService
     {
         private readonly ICourseRepository courseRepository;
         private readonly IEmailService emailService;
 
-        public CourseService(ICourseRepository courseRepository, IEmailService emailService)
+        public CourseService(ILogger<CourseService> logger, ICourseRepository courseRepository, IEmailService emailService) : base(logger)
         {
+            this.logger = logger;
             this.courseRepository = courseRepository;
             this.emailService = emailService;
         }

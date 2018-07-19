@@ -6,10 +6,9 @@ using System.Text;
 
 namespace CourseSignUp.Domain.Services
 {
-    public class EmailService : IEmailService
+    public class EmailService : BaseService, IEmailService
     {
-        private readonly ILogger logger;
-        public EmailService(ILogger<EmailService> logger)
+        public EmailService(ILogger<EmailService> logger) : base(logger)
         {
             this.logger = logger;
         }

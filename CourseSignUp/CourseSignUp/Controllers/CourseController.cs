@@ -9,6 +9,7 @@ using CourseSignUp.Domain.Repositories;
 using CourseSignUp.Domain.Services;
 using RabbitMQ.Client;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
 
 namespace CourseSignUp.Controllers
 {
@@ -20,9 +21,11 @@ namespace CourseSignUp.Controllers
         private const string routingKey = "routing-key";
 
         private readonly ICourseService courseService;
+        private readonly ILogger<CourseController> logger;
 
-        public CourseController(ICourseService courseService)
-        {
+        public CourseController(ILogger<CourseController> logger, ICourseService courseService)
+        { 
+            this.logger = logger;
             this.courseService = courseService;
         }
 
@@ -30,7 +33,15 @@ namespace CourseSignUp.Controllers
         [HttpGet("{courseCode}")]
         public async Task<CourseStatsResultDTO> Get(string courseCode)
         {
-            return await courseService.GetCourseStats(courseCode);
+            try
+            {
+                return await courseService.GetCourseStats(courseCode);
+            }
+            catch (Exception exc)
+            {
+                logger.LogError(exc.ToString());
+                throw;
+            }
         }
 
         // POST api/Course
@@ -45,16 +56,24 @@ namespace CourseSignUp.Controllers
                 HostName = "localhost"
             };
 
-            IConnection rabbitMQConnection = factory.CreateConnection();
-            var channel = rabbitMQConnection.CreateModel();
+            try
+            {
+                IConnection rabbitMQConnection = factory.CreateConnection();
+                var channel = rabbitMQConnection.CreateModel();
 
-            var json = JsonConvert.SerializeObject(input);
+                var json = JsonConvert.SerializeObject(input);
 
-            byte[] messageBodyBytes = System.Text.Encoding.UTF8.GetBytes(json);
-            channel.BasicPublish(exchangeName, routingKey, null, messageBodyBytes);
+                byte[] messageBodyBytes = System.Text.Encoding.UTF8.GetBytes(json);
+                channel.BasicPublish(exchangeName, routingKey, null, messageBodyBytes);
 
-            channel.Close();
-            rabbitMQConnection.Close();
+                channel.Close();
+                rabbitMQConnection.Close();
+            }
+            catch (Exception exc)
+            {
+                logger.LogError(exc.ToString());
+                throw;
+            }
         }
     }
 }
