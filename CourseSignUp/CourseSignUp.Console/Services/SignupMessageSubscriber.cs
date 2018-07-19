@@ -80,8 +80,10 @@ namespace BackgroundTasksSample.Services
                         // Enqueue a background work item
                         ProcessInput(signUpInput);
                     }
-                    catch (Exception)
+                    catch (Exception exc)
                     {
+                        _logger.LogError(exc,
+                           $"Error occurred executing 'signUpInput'.");
                     }
 
                 }
