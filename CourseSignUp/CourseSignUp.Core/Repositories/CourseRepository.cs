@@ -40,7 +40,7 @@ namespace CourseSignUp.Data.Repositories
                 throw new ArgumentNullException(nameof(input));
             }
 
-            Course course = dbSet.Where(c => c.Code == input.CourseCode).SingleOrDefault();
+            Course course = await dbSet.Where(c => c.Code == input.CourseCode).SingleOrDefaultAsync();
 
             if (course == null)
             {
