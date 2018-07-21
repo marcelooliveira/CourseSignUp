@@ -84,7 +84,7 @@ namespace CourseSignUp.Domain.Tests
 
             mockCourseRepository
                 .Setup(r => r.GetStudents(course.Code))
-                .Returns(students);
+                .Returns(Task.FromResult(students));
 
             SignUpInput signUpInput = new SignUpInput("!@#$xpto123", "José da Silva", new DateTime(1998, 4, 3));
 
@@ -115,7 +115,7 @@ namespace CourseSignUp.Domain.Tests
 
             mockCourseRepository
                 .Setup(r => r.GetStudents(course.Code))
-                .Returns(students);
+                .Returns(Task.FromResult(students));
 
             await courseService.SignUpStudent(signUpInput);
 
@@ -160,7 +160,7 @@ namespace CourseSignUp.Domain.Tests
 
             mockCourseRepository
                 .Setup(r => r.GetStudents(course.Code))
-                .Returns(students);
+                .Returns(Task.FromResult(students));
 
             SignUpInput signUpInput = new SignUpInput(course.Code, "José da Silva", new DateTime(1998, 4, 3));
 
@@ -200,7 +200,7 @@ namespace CourseSignUp.Domain.Tests
 
             mockCourseRepository
                 .Setup(r => r.GetStudents(course.Code))
-                .Returns(students);
+                .Returns(Task.FromResult(students));
 
             SignUpInput signUpInput = new SignUpInput(course.Code, "José da Silva", new DateTime(1990, 1, 1));
 
@@ -230,7 +230,7 @@ namespace CourseSignUp.Domain.Tests
 
             mockCourseRepository
                 .Setup(r => r.GetStudents(course.Code))
-                .Returns(students);
+                .Returns(Task.FromResult(students));
 
             SignUpInput signUpInput = new SignUpInput(course.Code, "José da Silva", new DateTime(1990, 1, 1));
 

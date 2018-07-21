@@ -5,6 +5,7 @@ using System.Text;
 using System.Linq;
 using CourseSignUp.Domain.Repositories;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourseSignUp.Data.Repositories
 {
@@ -19,25 +20,17 @@ namespace CourseSignUp.Data.Repositories
             this.studentRepository = studentRepository;
         }
 
-        public Task<Course> GetCourse(string courseCode)
+        public async Task<Course> GetCourse(string courseCode)
         {
-            return Task.Run(() =>
-            {
-                Course course = dbSet.Where(c => c.Code == courseCode).SingleOrDefault();
-                if (course == null)
-                {
-                    throw new ArgumentException($"Course not found: {courseCode}");
-                }
-                return course;
-            });
+            return await dbSet.Where(c => c.Code == courseCode).SingleOrDefaultAsync();
         }
 
-        public IList<Student> GetStudents(string courseCode)
+        public async Task<IList<Student>> GetStudents(string courseCode)
         {
-            return context.Set<Enrollment>()
+            return await context.Set<Enrollment>()
                 .Where(e => e.Course.Code == courseCode)
                 .Select(e => e.Student)
-                .ToList();
+                .ToListAsync();
         }
 
         public async Task SignUpStudent(SignUpInput input)
@@ -61,23 +54,20 @@ namespace CourseSignUp.Data.Repositories
             await context.SaveChangesAsync();
         }
 
-        public Task UpdateCourseStats(string courseCode, int studentCount, DateTime? minBirthdate, DateTime? maxBirthdate, long birthdateTickSum)
+        public async Task UpdateCourseStats(string courseCode, int studentCount, DateTime? minBirthdate, DateTime? maxBirthdate, long birthdateTickSum)
         {
-            return Task.Run(() =>
+            var course = dbSet.Where(c => c.Code == courseCode).SingleOrDefault();
+
+            if (course == null)
             {
-                var course = dbSet.Where(c => c.Code == courseCode).SingleOrDefault();
+                throw new ArgumentException("Course code not found.");
+            }
 
-                if (course == null)
-                {
-                    throw new ArgumentException("Course code not found.");
-                }
-
-                course.StudentCount = studentCount;
-                course.MinBirthdate = minBirthdate;
-                course.MaxBirthdate = maxBirthdate;
-                course.BirthdateTickSum = birthdateTickSum;
-                context.SaveChanges();
-            });
+            course.StudentCount = studentCount;
+            course.MinBirthdate = minBirthdate;
+            course.MaxBirthdate = maxBirthdate;
+            course.BirthdateTickSum = birthdateTickSum;
+            await context.SaveChangesAsync();
         }
     }
 }

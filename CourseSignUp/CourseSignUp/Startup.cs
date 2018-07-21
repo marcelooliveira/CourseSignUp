@@ -37,6 +37,7 @@ namespace CourseSignUp
 
             services.AddTransient<IApplicationContext, ApplicationContext>();
             services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IMessageQueueClientService, MessageQueueClientService>();
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<ICourseRepository, CourseRepository>();
             services.AddTransient<IStudentRepository, StudentRepository>();

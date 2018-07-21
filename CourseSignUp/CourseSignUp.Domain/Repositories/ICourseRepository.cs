@@ -8,7 +8,7 @@ namespace CourseSignUp.Domain.Repositories
     public interface ICourseRepository
     {
         Task<Course> GetCourse(string courseCode);
-        IList<Student> GetStudents(string courseCode);
+        Task<IList<Student>> GetStudents(string courseCode);
         Task SignUpStudent(SignUpInput input);
         Task UpdateCourseStats(string courseCode, int studentCount, DateTime? minBirthdate, DateTime? maxBirthdate, long birthdateTickSum);
     }
