@@ -15,6 +15,12 @@ namespace CourseSignUp.Domain.Model
             StudentId = studentId;
         }
 
+        public Enrollment(Course course, Student student)
+        {
+            Course = course;
+            Student = student;
+        }
+
         [Required]
         public virtual int CourseId { get; set; }
         public virtual Course Course { get; set; }

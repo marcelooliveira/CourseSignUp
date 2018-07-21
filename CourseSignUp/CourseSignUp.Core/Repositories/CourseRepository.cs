@@ -54,10 +54,9 @@ namespace CourseSignUp.Data.Repositories
                 throw new ArgumentException("Course code not found.");
             }
 
-            var student = studentRepository.Save(input.Name, input.BirthDate);
-            await context.SaveChangesAsync();
+            var student = new Student(input.Name, input.BirthDate);
 
-            context.Set<Enrollment>().Add(new Enrollment(course.Id, student.Id));
+            context.Set<Enrollment>().Add(new Enrollment(course, student));
 
             await context.SaveChangesAsync();
         }
