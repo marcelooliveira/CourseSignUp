@@ -40,29 +40,26 @@ namespace CourseSignUp.Data.Repositories
                 .ToList();
         }
 
-        public Task SignUpStudent(SignUpInput input)
+        public async Task SignUpStudent(SignUpInput input)
         {
-            return Task.Run(() =>
+            if (input == null)
             {
-                if (input == null)
-                {
-                    throw new ArgumentNullException(nameof(input));
-                }
+                throw new ArgumentNullException(nameof(input));
+            }
 
-                Course course = dbSet.Where(c => c.Code == input.CourseCode).SingleOrDefault();
+            Course course = dbSet.Where(c => c.Code == input.CourseCode).SingleOrDefault();
 
-                if (course == null)
-                {
-                    throw new ArgumentException("Course code not found.");
-                }
+            if (course == null)
+            {
+                throw new ArgumentException("Course code not found.");
+            }
 
-                var student = studentRepository.Save(input.Name, input.BirthDate);
-                context.SaveChanges();
+            var student = studentRepository.Save(input.Name, input.BirthDate);
+            await context.SaveChangesAsync();
 
-                context.Set<Enrollment>().Add(new Enrollment(course.Id, student.Id));
+            context.Set<Enrollment>().Add(new Enrollment(course.Id, student.Id));
 
-                context.SaveChanges();
-            });
+            await context.SaveChangesAsync();
         }
 
         public Task UpdateCourseStats(string courseCode, int studentCount, DateTime? minBirthdate, DateTime? maxBirthdate, long birthdateTickSum)

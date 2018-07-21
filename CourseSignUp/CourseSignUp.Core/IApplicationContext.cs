@@ -1,6 +1,8 @@
 ﻿using CourseSignUp.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CourseSignUp.Data
 {
@@ -14,5 +16,7 @@ namespace CourseSignUp.Data
         DatabaseFacade Database { get; }
 
         int SaveChanges();
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }
