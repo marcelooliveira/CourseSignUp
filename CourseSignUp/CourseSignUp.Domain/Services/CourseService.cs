@@ -24,27 +24,35 @@ namespace CourseSignUp.Domain.Services
 
         public async Task<CourseStatsResultDTO> GetCourseStats(string courseCode)
         {
-            var course = await courseRepository.GetCourse(courseCode);
-            if (course == null)
+            try
             {
-                throw new CourseCodeNotFoundException();
+                var course = await courseRepository.GetCourse(courseCode);
+                if (course == null)
+                {
+                    throw new CourseCodeNotFoundException();
+                }
+
+                DateTime? avgBirthdate = GetAvgBirthdate(course);
+
+                int? minAge = default;
+                int? maxAge = default;
+                int? avgAge = default;
+
+                if (course.StudentCount > 0)
+                {
+                    minAge = GetAge(course.MaxBirthdate.Value);
+                    maxAge = GetAge(course.MinBirthdate.Value);
+                    long avgTicks = (long)((double)course.BirthdateTickSum / (double)course.StudentCount);
+                    avgAge = GetAge(new DateTime(avgTicks));
+                }
+
+                return new CourseStatsResultDTO(courseCode, course.StudentCount, minAge, maxAge, avgAge);
             }
-
-            DateTime? avgBirthdate = GetAvgBirthdate(course);
-
-            int? minAge = default;
-            int? maxAge = default;
-            int? avgAge = default;
-
-            if (course.StudentCount > 0)
+            catch(Exception exc)
             {
-                minAge = GetAge(course.MaxBirthdate.Value);
-                maxAge = GetAge(course.MinBirthdate.Value);
-                long avgTicks = (long)((double)course.BirthdateTickSum / (double)course.StudentCount);
-                avgAge = GetAge(new DateTime(avgTicks));
+                logger.LogError(exc.ToString());
+                throw;
             }
-
-            return new CourseStatsResultDTO(courseCode, course.StudentCount, minAge, maxAge, avgAge);
         }
 
         private static DateTime? GetAvgBirthdate(Course course)
@@ -74,7 +82,7 @@ namespace CourseSignUp.Domain.Services
                 throw new CourseCodeNotFoundException();
             }
 
-            var students = courseRepository.GetStudents(input.CourseCode);
+            var students = await courseRepository.GetStudents(input.CourseCode);
 
             if (students.Contains(new Student(input.Name, input.BirthDate)))
             {
